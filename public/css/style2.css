@@ -1,0 +1,17 @@
+/* @keyframes glowing {
+    0% {
+        background-color: #ffff;
+        box-shadow: 0 0 5px #ffff;
+    }
+    50% {
+        background-color: #e81a1a;
+        box-shadow: 0 0 20px #e81a1a;
+    }
+    100% {
+        background-color: #ffff;
+        box-shadow: 0 0 5px #ffff;
+    }
+}
+.badge-regis {
+    animation: glowing 1800ms infinite;
+} */
