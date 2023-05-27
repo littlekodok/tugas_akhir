@@ -42,7 +42,7 @@
 								
 								
 								<div class="card-body">
-									<div class="logo-header">
+									{{-- <div class="logo-header">
 										<a href="index.html" class="logo"><img src="images/logo.png" alt="" class="mCS_img_loaded"></a>
 										<a href="index.html" class="logo-white">
 											<svg class="brand-title" xmlns="http://www.w3.org/2000/svg" width="134.01" height="48.365" viewBox="0 0 134.01 48.365">
@@ -52,14 +52,14 @@
 												</g>
 											</svg>
 										</a>
-									</div>
+									</div> --}}
 								
 									<nav>
 								    <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
 											
 									<div class="tab-content w-100" id="t">
-									  <div class="tab-pane fade show active" id="nav-personal" role="tabpanel" aria-labelledby="nav-personal-tab">
-										<form class="dez-form py-5 needs-validation" novalidate method="post" action="{{ route('post.registrasi') }}">
+									  <div class="tab-pane fade show active form-validation" id="nav-personal" role="tabpanel" aria-labelledby="nav-personal-tab">
+										<form class="dez-form py-5"  novalidate="" method="post" action="{{ route('post.registrasi') }}">
                                             @csrf
 											<h3 class="form-title">Registrasi	</h3>
 											<div class="dez-separator-outer m-b5">
@@ -70,7 +70,7 @@
 												 <input type="hidden" name="tanggal_daftar" value="{{ date('Y-m-d') }}">
 											</div>
                                             <div class="form-group mt-3">
-												<input pattern="[a-zA-Z]*" title="Isikan Hanya Huruf" name="nama" min = '3' required class=" text-capitalize form-control @error('nama') is-invalid  @enderror" placeholder="Nama Lengkap" value="{{ old('nama') }}" type="text">
+												<input pattern="[a-zA-Z ]*" title="Isikan Hanya Huruf" name="nama" min='3' class="text-capitalize form-control @error('nama') is-invalid  @enderror" placeholder="Nama Lengkap" value="{{ old('nama') }}" type="text"  required>
 													@error('nama')
 														<div class="invalid-feedback">
 														{{ $message }}
@@ -84,12 +84,12 @@
 														<div class="invalid-feedback">
 														{{ $message }}
 														</div>
-													@enderror
+												@enderror
 											</div>
 											
 											<div class="form-group mt-3">
 												<div class="input-group transparent-append">
-													<input type="password" name="password" min="8" class="form-control @error('password') is-invalid @enderror" id="dlab-password"  required placeholder="Password">
+													<input type="password" name="password" min="8" class="form-control @error('password') is-invalid @enderror" id="dlab-password" required placeholder="Password">
 													<span class="input-group-text show-pass border-left-end "> 
 														<i class="fa fa-eye-slash"></i>
 														<i class="fa fa-eye"></i>
@@ -101,14 +101,26 @@
 														@enderror
 
 												</div>
-
 											</div>
-											
+											<div class="form-group mt-3">
+                                            <div class="captcha">
+                                                <span>{!! captcha_img() !!}</span>
+                                                <button type="button" class="btn btn-danger" class="reload" id="reload">
+                                                &#x21bb;
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                                <input id="captcha" type="text" class="form-control @error ('captcha') is-invalid @enderror" placeholder="Enter Captcha" name="captcha" required>
+												@error('captcha')
+													<div class="invalid-feedback">
+															{{ $message }}
+															</div>
+												@enderror
+                                        </div>
 											<div class="text-center bottom mt-5"> 
-												<button class="btn btn-success	 button-md btn-block" id="nav-sign-tab" data-bs-toggle="tab" data-bs-target="#nav-sign" type="submit" role="tab" aria-controls="nav-sign" aria-selected="false">Buat Akun</button> 
-												
+												<button class="btn btn-success	button-md btn-block" type="submit">Buat Akun</button> 
 											</div>
-										
 										</form>
 									 
 									  <div class="tab-pane fade" id="nav-sign" role="tabpanel" aria-labelledby="nav-sign-tab">
@@ -152,25 +164,36 @@
 <script src="{{ asset('js/dlabnav-init.js') }}"></script>
 <script src="{{ asset('js/custom.min.js') }}"></script>
 <script>
-		(function () {
-		  'use strict'
+		
+		// (function () {
+		//   'use strict'
 
-		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-		  var forms = document.querySelectorAll('.needs-validation')
+		//   // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		//   var forms = document.querySelectorAll('.needs-validation')
 
-		  // Loop over them and prevent submission
-		  Array.prototype.slice.call(forms)
-			.forEach(function (form) {
-			  form.addEventListener('submit', function (event) {
-				if (!form.checkValidity()) {
-				  event.preventDefault()
-				  event.stopPropagation()
-				}
+		//   // Loop over them and prevent submission
+		//   Array.prototype.slice.call(forms)
+		// 	.forEach(function (form) {
+		// 	  form.addEventListener('submit', function (event) {
+		// 		if (!form.checkValidity()) {
+		// 		  event.preventDefault()
+		// 		  event.stopPropagation()
+		// 		}
 
-				form.classList.add('was-validated')
-			  }, false)
-			})
-		})()
+		// 		form.classList.add('was-validated')
+		// 	  }, false)
+		// 	})
+		// })()
+
+		$('#reload').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'reload-captcha',
+            success: function (data) {
+                $(".captcha span").html(data.captcha);
+            }
+        })
+    	})
 	</script>
 </body>
 </html>

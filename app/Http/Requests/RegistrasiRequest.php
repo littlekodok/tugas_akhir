@@ -26,8 +26,9 @@ class RegistrasiRequest extends FormRequest
         return [
             'email' => ['required','email','unique:users'],
             'password' => ['required','min:8','max:255'],
-            'nama' => ['required','unique:users','alpha'],
-            'tanggal_daftar' => ['required']
+            'nama' => ['required','unique:users','regex:/^[a-zA-Z\s]*$/'],
+            'tanggal_daftar' => ['required'],
+            'captcha' => ['required','captcha']
         ];
     }
 }

@@ -43,4 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+     public function wajib_pajak(){
+        return $this->hasOne(WajibPajak::class,'id_users','id');
+    }
 }

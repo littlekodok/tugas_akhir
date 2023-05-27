@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\RegistrasiRequest;
@@ -27,7 +28,7 @@ class AuthController extends Controller
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
          {
             if (auth()->user()->akses == 'Admin') {
-                return "Selamat Datang Admin";
+                return redirect()->route('admin.index');
             } elseif (auth()->user()->akses == 'Wajib Pajak' && auth()->user()->email_verified_at != null) {
                 return redirect()->route('wajib-pajak.index');
             } 
@@ -51,14 +52,17 @@ class AuthController extends Controller
     {
         return view('auth.registrasi');
     }
-
+    public function reloadCaptcha()
+    {
+        return response()->json(['captcha'=> captcha_img('flat')]);
+    }
     public function post_registrasi(RegistrasiRequest $request)
     {   
         dd($request->all());
         $valid = $request->validated();
         $valid['password'] = Hash::make($valid['password']);
         $user = User::create([
-                'nama' => $request['nama'],
+                'nama' => $valid['nama'],
                'email' => $valid['email'],
                'password'=> $valid['password'],
                'akses' => 'Wajib Pajak',

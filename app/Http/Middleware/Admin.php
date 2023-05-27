@@ -16,10 +16,10 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-          if (auth()->user()->akses == 'Admin' ){
+          if (auth()->user()->akses ==='Admin' ){
             return $next($request);
         }
         // return $next($request);
-        return redirect('home')->with('error',"Anda Tidak Dapat Mengakses Halaman Ini");
+        return redirect('/')->with('error',"Anda Tidak Dapat Mengakses Halaman Ini");
     }
 }

@@ -6,15 +6,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+                    @if (session()->has('success'))
+                           <div class="alert alert-success solid alert-dismissible fade show col-lg-12">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+									<strong>Success! </strong> {{ session('success') }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+                            </div>
+                            @endif
 						<div class="card">
 							<div class="card-body d-flex align-items-center">
 								<div>
 									<h4 class="fs-20 mb-2 fw-bold" >Selamat Datang {{ auth()->user()->nama }}</h4>
 									<p class="mb-0 ">E-SPTPD merupakan aplikasi pelaporan pajak berbasis website yang digunakan oleh BPPKAD Kabupaten Rembang dalam rangka penertiban pajak</p>
 								</div>	
-								<div class="upload">
-									<a href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
-								</div>
 							</div>
 						</div>
                 </div>
@@ -27,137 +32,56 @@
 									<h4 class="fs-20 mb-2 fw-bold" >Silahkan Registrasi Wajib Pajak</h4>
 									<p class="mb-0 ">Untuk mendapatkan NPWPD (Nomor Pokok Wajib Pajak Daerah) pengguna baru diharuskan untuk mengisi formulir registrasi Wajib Pajak terlebih dahulu. Dengan Adanya NPWPD Wajib Pajak dapat melaporkan pajaknya. <b class="text-success">Proses Pengecekan formulir oleh petugas selama 1-3 Hari Kerja.</b> Mohon untuk selalu mengecek akun kembali </p>
 								</div>
+
 							</div>
                         </div>
+                       
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                         <div class="card-body">
-                                <div class="card-header px-0">
-                                    <h4 class="card-title fw-bold">Formulir Registrasi Wajib Pajak</h4>
-                                </div>
-                                <div class="mt-3 basic-form">
-                                    <form action="">
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Tanggal</label>
-                                            <div class="col-sm-6">
-                                                <input type="input" class="form-control" value="{{ date('d/m/Y') }}" readonly>
-                                                <input type="hidden" name="tanggal_daftar" value="{{ date('Y-m-d') }}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Nomor Registrasi</label>
-                                            <div class="col-sm-6">
-                                                 <input type="input" class="form-control" name="jenis_pendapatan" value="Pajak"  readonly required>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Jenis Pendapatan</label>
-                                            <div class="col-sm-6">
-                                               <input type="text" value="Pajak" name="jenis_pendapatan" class="form-control" readonly required>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Jenis Usaha</label>
-                                            <div class="col-sm-6">
-                                                <select class="form-control default-select form-control wide" name="jenis_usaha"   required>
-                                                    <option value="">Silahkan Pilih</option>
-                                                    <option value="1">Pribadi</option>
-                                                    <option value="2">Badan Usaha</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">NIK/NIB</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" max="16" min="13" class="form-control" placeholder="NIK/NIB"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Nama Lengkap</label>
-                                            <div class="col-sm-6">
-                                                <input type="email" class="form-control" placeholder="Nama Lengkap">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Alamat</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" placeholder="Jalan">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="number" class="form-control" placeholder="RT">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="number" class="form-control" placeholder="RW">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Kabupaten</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control" value="Rembang" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Kecamatan</label>
-                                            <div class="col-sm-6">
-                                               <select class="default-select form-control wide ">
-                                                    <option>Option 1</option>
-                                                    <option>Option 2</option>
-                                                    <option>Option 3</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Kelurahan</label>
-                                            <div class="col-sm-6">
-                                               <select class="default-select form-control wide ">
-                                                    <option>Option 1</option>
-                                                    <option>Option 2</option>
-                                                    <option>Option 3</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Kode Pos</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control" maxlength="5"  minlength="5"   placeholder="Kode Pos" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            </div>
-                                        </div>
-                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Nomor Telepon</label>
-                                            <div class="col-sm-6">
-                                                <input type="tel"  minlength="10" maxlength="12"class="form-control" placeholder="Nomor Telepon"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                            </div>
-                                        </div>
-                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Email</label>
-                                            <div class="col-sm-6">
-                                                <input type="email" class="form-control" placeholder="Email" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label ">*Syarat dan Ketentuan</label>
-                                            <div class="form-check col-sm-6 mx-3">
-											  <input class="form-check-input " type="checkbox" value="" id="invalidCheck2" required>
-											  <label class="form-check-label" for="invalidCheck2">
-												Data yang anda isikan sesuai dengan data yang ada dan belum pernah digunakan sebelumnya. Apabila ada data yang tidak sesuai atau palsu anda berhak mendapatkan konsekuensi yang berlaku
-											  </label>
-											</div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-5 mb-2 btn-block fw-bold h4" style="font-size: 12px;">Kirim</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </div>
-
+@if ($cek == false)
+    @include('wajib-pajak.form')
+@endif
         </div>
 
     </div>
+    @push('scripts')
+        <script>
+
+        $(document).ready(function() {
+            $('.js-example-basic-single kecamatan').select2();
+        });
+        $(document).ready(function() {
+            $('.js-example-basic-single kelurahan').select2();
+        });
+        
+        $(document).ready(function() {
+            $('#id_kecamatan').on('change', function() {
+                var id_kecamatan = $(this).val();
+                // window.alert(id_prov);
+                if (id_kecamatan) {
+                    $.ajax({
+                        url: 'wajib-pajak/getKelurahan/' + id_kecamatan,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                           
+                            $('select[name="id_kelurahan"]').empty();
+                            $('select[name="id_kelurahan"]').append(
+                                '<option hidden>Pilih Kelurahan</option>');
+                            $.each(data, function(key, datakelurahan) {
+                                $('select[name="id_kelurahan"]').append('<option value="' +
+                                    datakelurahan.id + '">' + datakelurahan.kode_kelurahan + '|' + datakelurahan.nama_kelurahan +
+                                    '</option>');
+                            });
+
+                        }
+                    });
+                } else {
+                    $('select[name="id_kelurahan"]').empty();
+                }
+            });
+        });    
+        </script>
+    @endpush
 
 @endsection

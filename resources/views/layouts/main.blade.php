@@ -31,6 +31,11 @@
 	<link rel="stylesheet" href="{{ asset("css/style2.css") }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 	
+	<!-- Leaflet Js -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+	
+	<!-- Datatable -->
+    <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
 </head>
 <body>
 
@@ -74,13 +79,12 @@
 <!-- Required vendors -->
 <script src="{{ asset('vendor/global/global.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
 
-<!-- Apex Chart -->
-{{-- <script src="{{ asset('vendor/apexchart/apexchart.js') }}"></script> --}}
-{{-- <script src="{{ asset('vendor/chartjs/chart.bundle.min.js') }}"></script> --}}
-
-<!-- Chart piety plugin files -->
-<script src="{{ asset('vendor/peity/jquery.peity.min.js') }}"></script>
+<!-- Datatable -->
+{{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> --}}
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+{{-- <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script> --}}
 
 <!-- Dashboard 1 -->
 <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
@@ -90,7 +94,12 @@
 <script src="{{ asset('js/custom.min.js') }}"></script>
 <script src="{{ asset('js/dlabnav-init.js') }}"></script>
 
+<!-- Leaflet Js -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
+
+
+@stack('scripts')	
 <script>
 function JobickCarousel()
 	{
