@@ -3,5 +3,5 @@
 
     //date picker classic default
     $('.datepicker-default').pickadate();
-
+        
 })(jQuery);

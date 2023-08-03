@@ -28,6 +28,7 @@ class WajibPajakController extends Controller
     {     
           // $user = User::findOrfail();
           $kecamatans = Kecamatan::all();
+          $kelurahans = Kelurahan::all();
         //   dd($kecamatans);
           $wp = WajibPajak::where('id_user', auth()->user()->id)->first();
           if (empty($wp)) {
@@ -51,7 +52,7 @@ class WajibPajakController extends Controller
                 $kd = "0000001";
             }
 
-        return view('wajib-pajak.index',compact('kecamatans','kd', 'cek'));
+        return view('wajib-pajak.index',compact('kecamatans','kd', 'cek','kelurahans'));
     }
     public function store( WajibPajakRequest $request)
     {
@@ -59,14 +60,16 @@ class WajibPajakController extends Controller
         
         $valid = $request->validated();
         if ($request->file('foto')) {
-            $valid['foto'] = $request->file('foto')->store('public/wajib-pajak');
+            $valid['foto'] = $request->file('foto')->store('wajib-pajak','public');
         }
         // $foto = $valid->file('foto')->store('public/wajib-pajak');
         $wp = WajibPajak::create([
             'id_kecamatan' => $valid['id_kecamatan'],
-            'kecamatan_luar' => ($valid['id_kecamatan'] == 1) ? $valid['id_kecamatan'] : '',
+            // 'kecamatan_luar' => ($valid['id_kecamatan'] == 1) ? $valid['id_kecamatan'] : '',
+            'kecamatan_luar' => ($valid['id_kecamatan'] == 1) ? $request['kecamatan_luar'] : '',
             'id_kelurahan' => $valid['id_kelurahan'],
-            'kelurahan_luar' => ($valid['id_kelurahan'] == 1) ? $valid['id_kelurahan'] : '',
+            // 'kelurahan_luar' => ($valid['id_kelurahan'] == 1) ? $valid['id_kelurahan'] : '',
+            'kelurahan_luar' => ($valid['id_kelurahan'] == 1) ? $request['kelurahan_luar'] : '',
             'id_user' => Auth::user()->id,
             'tanggal_daftar' => $valid['tanggal_daftar'],
             'no_pendaftaran' => $valid['no_pendaftaran'],
@@ -84,6 +87,7 @@ class WajibPajakController extends Controller
             'foto' => $valid['foto'],
             'verifikasi' => false
         ]);
+        // dd($wp);
 
         return redirect()-> route('wajib-pajak.index')->with('success','Wajib Pajak Sudah diregistrasi');
     }

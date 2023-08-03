@@ -9,12 +9,12 @@ class VerificationController extends Controller
 {
     public function notice()
     {
-        return "Mohon verifikasi email terlebih dahulu";
+        return view('auth.notice');
     }
     public function verify(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return "Akun berhasil diverifikais, Selamat datang di dashboard";
+        return view('auth.verifiy');
     }
     public function resend(Request $request)
     {

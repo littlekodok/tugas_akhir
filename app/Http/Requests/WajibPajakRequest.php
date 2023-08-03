@@ -40,9 +40,15 @@ class WajibPajakRequest extends FormRequest
             'no_telpon' => ['required','max:13'],
             'kode_pos' => ['required','max:5'],
             'email' => ['required'],
-            'foto' => ['required','image','mimes:jpg,png,jpeg','max:2048','dimensions:min_height=100,max_width=500,max_height=500'],
+            'foto' => ['required','image','mimes:jpg,png,jpeg','max:2048'],
             // 'kecamatan_luar' => 'required',
             // 'kelurahan_luar' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'foto.image' => 'Fotone Kegeden Kang'
         ];
     }
 }

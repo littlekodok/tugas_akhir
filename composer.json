@@ -6,12 +6,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "barryvdh/laravel-dompdf": "^2.0",
+        "doctrine/dbal": "^3.6",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "maatwebsite/excel": "^3.1",
         "mews/captcha": "^3.3",
+        "midtrans/midtrans-php": "^2.5",
+        "nesbot/carbon": "^2.68",
+        "realrashid/sweet-alert": "^7.0",
         "yajra/laravel-datatables-oracle": "9.21.2"
     },
     "require-dev": {

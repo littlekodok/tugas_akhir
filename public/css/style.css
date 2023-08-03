@@ -9550,7 +9550,7 @@ div, span, ol, ul {
     text-decoration: none;
     padding-left: 1.875rem;
     padding-right: 1.875rem;
-    font-weight: 700; }
+    font-weight: 500; }
     @media only screen and (max-width: 87.5rem) {
       .nav-header .brand-logo {
         padding-left: 1.25rem;
@@ -9568,9 +9568,9 @@ div, span, ol, ul {
   .nav-header .brand-title {
     margin-left: 0.9375rem;
     max-width: 8.75rem;
-    font-size: 2.375rem;
-    color: #000; }
-    [data-theme-version="dark"] .nav-header .brand-title {
+    font-size: 2.20rem;
+    color: #fff; }
+    [data-theme-version="white"] .nav-header .brand-title {
       background-position: 0 120%; }
   @media only screen and (max-width: 47.9375rem) {
     .nav-header {
@@ -21793,7 +21793,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   background-color: var(--primary);
   border-color: var(--primary);
   background-size: cover; }
-
+    
 .form-check-input:focus {
   border-color: var(--primary);
   box-shadow: var(--rgba-primary-1); }

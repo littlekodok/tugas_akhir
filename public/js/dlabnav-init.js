@@ -35,15 +35,29 @@ function getUrlParams(dParam) {
         typography: "poppins",
         version: "light",
         layout: "vertical",
-        primary: "color_15",
+        primary: "color_14",
         headerBg: "color_1",
-        navheaderBg: "color_1",
-        sidebarBg: "color_1",
+        navheaderBg: "color_14",
+        sidebarBg: "color_14",
         sidebarStyle: "full",
         sidebarPosition: "fixed",
         headerPosition: "fixed",
         containerLayout: "full",
     };
+
+    // var dlabThemeSet2 = {
+    //     typography: "poppins",
+    //     version: "light",
+    //     layout: "vertical",
+    //     primary: "color_15",
+    //     headerBg: "color_1",
+    //     navheaderBg: "color_15",
+    //     sidebarBg: "color_15",
+    //     sidebarStyle: "compact",
+    //     sidebarPosition: "fixed",
+    //     headerPosition: "fixed",
+    //     containerLayout: "full",
+    // };
 
     new dlabSettings(dlabSettingsOptions);
 

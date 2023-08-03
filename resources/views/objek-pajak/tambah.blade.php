@@ -9,7 +9,7 @@
 						<div class="page-titles">
 							<div class="d-flex">
 								<ol class="breadcrumb align-items-center mt-0">
-                                    <li class="breadcrumb-item ps-0"><a href="javascript:void(0)">Pelaporan Objek Pajak</a></li>
+                                    <li class="breadcrumb-item ps-0"><a href="{{ route('wajib-pajak.objek-pajak.index') }}">Pelaporan Objek Pajak</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Tambah Objek Pajak</li>
                                     {{-- <li class="breadcrumb-item ps-0"><a href="javascript:void(0)">Pelaporan Objek Pajak</a></li>
                                     <li class="breadcrumb-item ps-0 active"><a href="javascript:void(0)">Tambah Objek Pajak</a></li> --}}
@@ -27,7 +27,8 @@
                                     <h4 class="card-title fw-bold">Formulir Pelaporan Objek Pajak</h4>
                                 </div>
                                 <div class="mt-3 basic-form">
-                                    <form action="">
+                                    <form action="{{ route('wajib-pajak.objek-pajak.store') }}" id="form" method="post" enctype="multipart/form-data">
+                                       @csrf
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Tanggal</label>
                                             <div class="col-sm-6">
@@ -44,10 +45,10 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Jenis Pajak</label>
                                             <div class="col-sm-6">
-                                                <select class="js-example-basic-single jenis_pajak form-control wide" name="id_jenis_pajak" id="id_jenis_pajak"  required>
+                                                <select class="js-example-basic-single jenis_pajak form-control wide" name="id_jenis_pajak" id="id_jenis_pajak"  required onchange="listRekening()">
                                                     <option value="">Silahkan Pilih</option>
                                                         @foreach ($jenispajak as $jp)
-                                                        <option value="{{ $jp->id }}">{{ $jp->kode_jenis_pajak }} | {{ $jp->nama_pajak }}</option>
+                                                        <option value="{{ $jp->id }}" {{ old('id_jenis_pajak') == $jp->id ? "selected" : "" }}>{{ $jp->nama_pajak }}</option>
                                                         @endforeach
                                                 </select>
                                             </div>
@@ -57,35 +58,57 @@
                                             <div class="col-sm-6">
                                                 <select class="js-example-basic-single rekening form-control wide" name="id_rekening"  id="id_rekening" required>
                                                     <option value="">Silahkan Pilih</option>
-                                                  
+                                                    @foreach ($rekenings as $rekening)
+                                                            <option value="{{ $rekening->id}}" {{ old('id_rekening') == $rekening->id ? 'selected' : '' }}>{{ $rekening->kode_rekening }} | {{ $rekening->nama_rekening }}</option>
+                                                    @endforeach 
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Nama Objek</label>
                                             <div class="col-sm-6">
-                                                <input type="email" class="form-control" placeholder="Nama Objek" name="nama_objek">
+                                                <input type="text" class="form-control  @error('nama_objek') is-invalid @enderror" value="{{ old('nama_objek') }}" placeholder="Nama Objek" name="nama_objek"  style="text-transform: capitalize" required>
+                                                 @error('nama_objek')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Alamat</label>
+                                            <label class="col-sm-3 col-form-label">Jalan</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" placeholder="Jalan" name="alamat_objek">
+                                                <input type="text" class="form-control  @error('alamat_objek') is-invalid @enderror" value="{{ old('alamat_objek') }}" placeholder="Jalan" name="alamat_objek"  >
+                                                @error('alamat_objek')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="RT" name="rt_objek">
+                                                <input type="number" class="form-control @error('rt_objek') is-invalid @enderror" value="{{ old('rt_objek') }}" placeholder="RT" id ="rt"  name="rt_objek"  oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);" required>
+                                                @error('rt_objek')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="RW" name="rw_objek">
+                                                <input type="number" class="form-control @error('rw_objek') is-invalid @enderror " value="{{ old('rw_objek') }}" placeholder="RW" id="rw" name="rw_objek" oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);" required>
+                                                @error('rw_objek')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-6">
-                                                <select class="js-example-basic-single kecamatan form-control wide" name="id_kecamatan" id="id_kecamatan" required >
+                                                <select class="js-example-basic-single kecamatan form-control wide" name="id_kecamatan" id="id_kecamatan" required  onchange="listKelurahan()">
                                                     <option>Silahkan Pilih</option>
                                                     @foreach ($kecamatans as $kecamatan)
-                                                        <option value="{{ $kecamatan->id }}"> {{ $kecamatan->nama_kecamatan }} </option>
+                                                        <option value="{{ $kecamatan->id }}"  {{ old('id_kecamatan') == $kecamatan->id ? "selected" : "" }}> {{ $kecamatan->nama_kecamatan }} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -93,8 +116,11 @@
                                          <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kelurahan</label>
                                             <div class="col-sm-6">
-                                               <select class="js-example-basic-single kelurahan form-control wide" name="id_kelurahan" id="id_kelurahan"  required>
+                                               <select class="js-example-basic-single kelurahan form-control wide" name="id_kelurahan"  id="id_kelurahan"  required>
                                                 <option >Silahkan Pilih</option>
+                                                 @foreach ($kelurahans as $kelurahan)
+                                                            <option value="{{ $kelurahan->id}}" {{ old('id_kelurahan') == $kelurahan->id ? 'selected' : '' }}> {{ $kelurahan->nama_kelurahan }}</option>
+                                                @endforeach 
                                                 </select>
                                                 
                                             </div>
@@ -102,34 +128,42 @@
                                          <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kode Pos</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" maxlength="5"  minlength="5"   placeholder="Kode Pos" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                <input type="text" class="form-control @error('kode_pos_objek') is-invalid @enderror " value="{{ old('kode_pos_objek') }}" maxlength="5"  name="kode_pos_objek" minlength="5"   placeholder="Kode Pos" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                                                 @error('kode_pos_objek')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                          <div class="mb-3 row">
-                                            <div class="container map " id="map" style="height:350px; margin:20px 0px"></div>
+                                            <div class="container map " id="map" style="height:500px; margin:20px 0px"></div>
                                         </div>
                                          <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Latitude</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="latitude" id="latitude">
+                                                <input type="text" class="form-control" value="{{ old('latitude') }}" name="latitude" id="latitude" required  readonly>
                                             </div>
                                         </div>
                                          <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Longitude</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="longitude" id="longitude">
+                                                <input type="text" class="form-control" value="{{ old('longitude') }}" name="longitude" id="longitude" required readonly>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="formFileMultiple" class="col-sm-3 col-form-label">Dokumen Pendukung</label>
+                                            <label for="formFileMultiple" class="col-sm-3 col-form-label">Foto Pendukung</label>
                                               <div class="col-sm-6">
-                                                <input class="form-control @error('foto') is-invalid @enderror" name="foto" type="file" accept="image/png, image/jpeg" id="formFileMultiple" multiple required>
+                                                <input class="form-control @error('foto') is-invalid @enderror" name="foto[]" type="file" accept="image/png, image/jpeg" id="formFileMultiple" multiple required>
+                                                <span >
+                                                    <strong class="text-danger">Minimal 3 Foto, Foto yang kurang dari 3 akan ditolak untuk valdasi</strong>
+                                                </span>
                                                  @error('foto')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-                                                <span class="d-flex mt-1 text-danger">*Maksimal 2 Mb</span>
+                                               
                                               </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -142,7 +176,7 @@
 											</div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-5 mb-2 btn-block fw-bold h4" style="font-size: 12px;">Kirim</button>
+                                            <button type="submit" class="btn btn-primary mt-5 mb-2 btn-block fw-bold h4 sweet-confirm" style="font-size: 12px;">Kirim</button>
                                         </div>
                                     </form>
                                 </div>
@@ -157,78 +191,92 @@
 
     </div>
      @push('scripts')
-      <script>
-      // Kelurahan
-        $(document).ready(function() {
-            $('.js-example-basic-single kecamatan').select2();
-        });
-        $(document).ready(function() {
-            $('.js-example-basic-single kelurahan').select2();
-        });
-        
-        $(document).ready(function() {
-            $('#id_kecamatan').on('change', function() {
-                var id_kecamatan = $(this).val();
-                // window.alert(id_prov);
-                if (id_kecamatan) {
-                    $.ajax({
-                        url: 'tambah/getKelurahanObjek/' + id_kecamatan,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                           
-                            $('select[name="id_kelurahan"]').empty();
-                            $('select[name="id_kelurahan"]').append(
-                                '<option hidden>Pilih Kelurahan</option>');
-                            $.each(data, function(key, datakelurahan) {
-                                $('select[name="id_kelurahan"]').append('<option value="' +
-                                    datakelurahan.id + '">' + datakelurahan.nama_kelurahan  +
-                                    '</option>');
-                            });
+    <script>
+        document.querySelector(".sweet-confirm").onclick = function (e) {
+			e.preventDefault();
+			Swal.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pastikan Data Sudah Benar",
+				type: 'warning',
+				showCancelButton: true,
+				cancelButtonText: 'Batal',
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Ya'
+				}).then((result) => {
+				if (result.isConfirmed) {
+					document.querySelector('#form').submit()
+				}
+			})
+		}
 
-                        }
-                    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        listKelurahan();
+        listRekening();
+        });
+
+
+    function listKelurahan() {
+        var id_kecamatan = $("#id_kecamatan").val();
+        var id_kelurahan = $('#id_kelurahan').val();
+        var kelurahanSelect = $("#id_kelurahan");
+        // var ket = document.getElementById('keterangan_lokasi');
+        $.ajax({
+            url: 'tambah/getKelurahanObjek/' + id_kecamatan,
+            type: 'GET',
+            data: {
+                id_kecamatan: id_kecamatan,
+            }
+        }).then(function(data) {
+            // $('#indeks_kawasan').val(data.indeks_kawasan);
+            // ket.innerHTML = '';
+            kelurahanSelect.empty();
+            kelurahanSelect.append('<option value="">Silahkan Pilih</option>');
+            data.forEach(function(val) {
+                if (val.id == id_kelurahan) {
+                    kelurahanSelect.append('<option selected value="' +
+                                    val.id + '">' + val.nama_kelurahan +
+                                    '</option>');
                 } else {
-                    $('select[name="id_kelurahan"]').empty();
+                    kelurahanSelect.append('<option value="' +
+                                    val.id + '">' + val.nama_kelurahan +
+                                    '</option>');
                 }
             });
         });
+    }   
 
-        // Rekening
-        $(document).ready(function() {
-            $('.js-example-basic-single jenis_pajak').select2();
-        });
-        $(document).ready(function() {
-            $('.js-example-basic-single rekening').select2();
-        });
-        
-        $(document).ready(function() {
-            $('#id_jenis_pajak').on('change', function() {
-                var id_jenis_pajak = $(this).val();
-                // window.alert(id_prov);
-                if (id_jenis_pajak) {
-                    $.ajax({
-                        url: 'tambah/getRekening/' + id_jenis_pajak,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                           
-                            $('select[name="id_rekening"]').empty();
-                            $('select[name="id_rekening"]').append(
-                                '<option hidden>Pilih Rekening</option>');
-                            $.each(data, function(key, dataRekening) {
-                                $('select[name="id_rekening"]').append('<option value="' +
-                                    dataRekening.id + '">' + dataRekening.kode_rekening + '|' + dataRekening.nama_rekening + '|' + dataRekening.persen_tarif + '%' +
+    function listRekening() {
+        var id_jenis_pajak = $("#id_jenis_pajak").val();
+        var id_rekening = $('#id_rekening').val();
+        var rekeningSelect = $("#id_rekening");
+        // var ket = document.getElementById('keterangan_lokasi');
+        $.ajax({
+            url: 'tambah/getRekening/' + id_jenis_pajak,
+            type: 'GET',
+            data: {
+                id_jenis_pajak: id_jenis_pajak,
+            }
+        }).then(function(data) {
+            // $('#indeks_kawasan').val(data.indeks_kawasan);
+            // ket.innerHTML = '';
+            rekeningSelect.empty();
+            rekeningSelect.append('<option value="">Silahkan Pilih</option>');
+            data.forEach(function(val) {
+                if (val.id == id_rekening) {
+                    rekeningSelect.append('<option selected value="' +
+                                    val.id + '">'  + val.nama_rekening +
                                     '</option>');
-                            });
-
-                        }
-                    });
                 } else {
-                    $('select[name="id_rekening"]').empty();
+                    rekeningSelect.append('<option value="' +
+                                    val.id + '">'  + val.nama_rekening +
+                                    '</option>');
                 }
             });
         });
+    }
+  
 
         // Peta Koordinat
           var map = L.map('map').setView([-6.7147371, 111.3209311], 13);

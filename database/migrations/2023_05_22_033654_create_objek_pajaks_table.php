@@ -29,6 +29,8 @@ class CreateObjekPajaksTable extends Migration
             $table->string('kode_pos_objek');
             $table->string('latitude');
             $table->string('longitude');
+            $table->string('validasi')->default('Proses');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

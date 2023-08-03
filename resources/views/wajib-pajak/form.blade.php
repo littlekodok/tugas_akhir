@@ -29,9 +29,9 @@
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-3 col-form-label">Jenis Usaha</label>
+                                            <label class="col-sm-3 col-form-label ">Jenis Usaha</label>
                                             <div class="col-sm-6">
-                                                <select class="form-control default-select form-control wide  @error('jenis_usaha') is-invalid @enderror" value="{{ old('jenis_usaha') }}"   name="jenis_usaha" required>
+                                                <select id="jenis_usaha" class="form-control jenis-usaha form-control wide  @error('jenis_usaha') is-invalid @enderror" value="{{ old('jenis_usaha') }}"   name="jenis_usaha" required>
                                                     <option value="">Silahkan Pilih</option>
                                                     <option value="1" {{ old('jenis_usaha') == "1" ? "selected" : "" }}>Pribadi</option>
                                                     <option value="2" {{ old('jenis_usaha') == "2" ? "selected" : "" }}>Badan Usaha</option>
@@ -43,10 +43,14 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                      
+                                            {{-- <label id="otherName" style="display: none">Enter your Name<input type="text" name="othername" />
+                                            </label> --}}
+                                     
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">NIK/NIB</label>
                                             <div class="col-sm-6">
-                                                <input type="text" maxlength="16" minlength="13" class="form-control  @error('nik') is-invalid @enderror"  value="{{ old('nik') }}" name="nik" laceholder="NIK/NIB"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                                                <input type="text" maxlength="16" minlength="13" class="form-control  @error('nik') is-invalid @enderror"  value="{{ old('nik') }}" name="nik" placeholder="NIK/NIB"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
                                                  @error('nik')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -57,12 +61,13 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Nama Lengkap</label>
                                             <div class="col-sm-6">
-                                                <input type="text" pattern="[A-Za-z ]*" title="Isikan Hanya Huruf" class="text-capitalize form-control @error('nama') is-invalid @enderror" name="nama" value="{{ auth()->user()->nama }}" required>
+                                                <input type="text" pattern="[a-zA-Z ]+" title="Isikan Hanya Huruf Tanpa Menggunakan Nama Gelar" class="text-capitalize form-control @error('nama') is-invalid @enderror" name="nama" value="{{ auth()->user()->nama }}" required>
                                                 @error('nama')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
+                                                <span class="d-flex mt-1 text-danger">*Tuliskan nama tanpa gelar</span>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -76,7 +81,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-sm-2">
-                                                <input type="text" class="form-control  @error('rt') is-invalid @enderror" name="rt" value="{{ old('rt') }}"  maxlength="2" placeholder="RT" required  oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);" >
+                                                <input type="number" class="form-control  @error('rt') is-invalid @enderror" name="rt" value="{{ old('rt') }}"  maxlength="2" placeholder="RT" required  oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);" >
                                                 @error('rt')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -84,7 +89,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-sm-2">
-                                                <input min="0" maxlength="2" value="{{ old('rw') }}" name="rw" class="form-control  @error('rw') is-invalid @enderror" type="text" placeholder="RW" oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);"/>
+                                                <input min="0" maxlength="2" value="{{ old('rw') }}" name="rw" class="form-control  @error('rw') is-invalid @enderror" type="number" placeholder="RW" oninput="(function(e) { let value = e.value.replace(/\D/g,''); if (parseInt(value, 10) < 10) { value = '0' + value; } e.value = value.substr(-2); })(this);"/>
                                                 @error('rw')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -101,10 +106,10 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-6">
-                                               <select class="js-example-basic-single kecamatan form-control wide  @error('id_kecamatan') is-invalid @enderror" name="id_kecamatan" id="id_kecamatan" required >
+                                               <select class="js-example-basic-single kecamatan form-control wide  @error('id_kecamatan') is-invalid @enderror" name="id_kecamatan" id="id_kecamatan" required  onchange="listKelurahan()">
                                                     <option>Silahkan Pilih</option>
                                                     @foreach ($kecamatans as $kecamatan)
-                                                        <option value="{{ $kecamatan->id }}" {{ old('id_kecamatan') == $kecamatan->id ? "selected" : "" }}>{{ $kecamatan->kode_kecamatan }} | {{ $kecamatan->nama_kecamatan }} </option>
+                                                        <option value="{{ $kecamatan->id }}" {{ old('id_kecamatan') == $kecamatan->id ? "selected" : "" }}>{{ $kecamatan->nama_kecamatan }} </option>
                                                     @endforeach
                                                 </select>
                                                 @error('id_kecamatan')
@@ -114,11 +119,25 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                         <div class="mb-3 row">
+                                        <div class="mb-3 row" style="display:none;" id="kecamatan_luar">
+                                            <label class="col-sm-3 col-form-label"></label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control  @error('kecamatan_luar') is-invalid @enderror" value="{{ old('kecamatan_luar') }}" name="kecamatan_luar" style="background-color:#fafafa"  placeholder="Masukan Kecamatan Luar"  >
+                                                @error('kecamatan_luar')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kelurahan</label>
                                             <div class="col-sm-6">
                                                <select class="js-example-basic-single kelurahan form-control wide  @error('id_kelurahan') is-invalid @enderror " name="id_kelurahan" id="id_kelurahan" required>
-                                                    <option>Silahkan Pilih</option>
+                                                    @foreach ($kelurahans as $kelurahan)
+                                                            <option value="{{ $kelurahan->id}}" {{ old('id_kelurahan') == $kelurahan->id ? 'selected' : '' }}>{{ $kelurahan->nama_kelurahan }}</option>
+                                                @endforeach 
                                                 </select>
                                                 @error('id_kelurahan')
                                                     <span class="invalid-feedback" role="alert">
@@ -127,6 +146,18 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="mb-3 row" style="display: none"  id="kelurahan_luar">
+                                            <label class="col-sm-3 col-form-label"></label>
+                                            <div class="col-sm-6">
+                                                <input type="text"  id="kelurahan_luar" class="form-control text-dark  @error('kelurahan_luar') is-invalid @enderror" style="background-color:#fafafa" value="{{ old('kelurahan_luar') }}" name="kelurahan_luar"  placeholder="Masukan Nama Kelurahan"  >
+                                                @error('kelurahan_luar')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
                                          <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Kode Pos</label>
                                             <div class="col-sm-6">
@@ -158,7 +189,7 @@
                                         <div class="mb-3 row">
                                             <label for="formFileMultiple" class="col-sm-3 col-form-label">Foto Wajib Pajak</label>
                                               <div class="col-sm-6">
-                                                <input class="form-control @error('foto') is-invalid @enderror" name="foto" type="file" accept="image/png, image/jpeg" id="formFileMultiple" multiple required>
+                                                <input class="form-control @error('foto') is-invalid @enderror" name="foto" type="file" accept="image/png, image/jpeg"  required>
                                                  @error('foto')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -177,7 +208,7 @@
 											</div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary mt-5 mb-2 btn-block fw-bold h4" style="font-size: 12px;">Kirim</button>
+                                            <button type="submit" class="btn btn-primary mt-5 mb-2 btn-block fw-bold h4"  style="font-size: 12px;">Kirim</button>
                                         </div>
                                     </form>
                                 </div>
@@ -185,3 +216,5 @@
                     </div>
                 </div>
             </div>
+
+           

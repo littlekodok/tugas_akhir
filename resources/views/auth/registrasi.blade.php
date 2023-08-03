@@ -13,7 +13,7 @@
 	<meta property="og:description" content="We proudly present Jobick, a Job Admin dashboard HTML Template, If you are hiring a job expert you would like to build a superb website for your Jobick, it's a best choice." >
 	<meta property="og:image" content="https://jobick.dexignlab.com/xhtml/social-image.png">
 	<meta name="format-detection" content="telephone=no">
-	
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<!-- Mobile Specific -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
@@ -102,7 +102,7 @@
 
 												</div>
 											</div>
-											<div class="form-group mt-3">
+										<div class="form-group mt-3">
                                             <div class="captcha">
                                                 <span>{!! captcha_img() !!}</span>
                                                 <button type="button" class="btn btn-danger" class="reload" id="reload">
@@ -119,7 +119,11 @@
 												@enderror
                                         </div>
 											<div class="text-center bottom mt-5"> 
-												<button class="btn btn-success	button-md btn-block" type="submit">Buat Akun</button> 
+												<button class="btn btn-primary	button-md btn-block" type="submit">Buat Akun</button> 
+												
+											</div>
+											<div class="new-account mt-3">
+												<p>Sudah Punya Akun? <a class="text-primary" href="{{ route('login') }}">Login</a></p>
 											</div>
 										</form>
 									 

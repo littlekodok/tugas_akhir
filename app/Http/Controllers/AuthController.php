@@ -16,11 +16,12 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    // Login
     public function post_login(Request $request)
     {
-        // dd($request->all());
-      
+    
          $input = $request->validate([
+            'captcha' => 'required|captcha',
             'email' => 'required|email',
             'password' => 'required'
         ]);
@@ -56,9 +57,10 @@ class AuthController extends Controller
     {
         return response()->json(['captcha'=> captcha_img('flat')]);
     }
+    // Registrasi
     public function post_registrasi(RegistrasiRequest $request)
     {   
-        dd($request->all());
+        // dd($request->all());
         $valid = $request->validated();
         $valid['password'] = Hash::make($valid['password']);
         $user = User::create([

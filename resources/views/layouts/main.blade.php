@@ -12,6 +12,7 @@
 	<meta property="og:title" content="Jobick : Job Admin Dashboard Bootstrap 5 Template + FrontEnd">
 	<meta property="og:description" content="We proudly present Jobick, a Job Admin dashboard HTML Template, If you are hiring a job expert you would like to build a superb website for your Jobick, it's a best choice." >
 	<meta property="og:image" content="https://jobick.dexignlab.com/xhtml/social-image.png">
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- Mobile Specific -->
@@ -22,13 +23,15 @@
 	
 	<!-- Favicon icon -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-	
 	<!-- All StyleSheet -->
 	<link href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('vendor/owl-carousel/owl.carousel.css" rel="stylesheet') }}">
-	
+	<link href="{{ asset('vendor/lightgallery/css/lightgallery.min.css') }}" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="{{ asset('vendor/lightgallery/css/lightgallery.css') }}">
+	{{-- <link href="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet"> --}}
+	{{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
 	<!-- Globle CSS -->
-	<link rel="stylesheet" href="{{ asset("css/style2.css") }}">
+	<link rel="stylesheet" href="{{ asset("css/style-form.css") }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 	
 	<!-- Leaflet Js -->
@@ -36,6 +39,9 @@
 	
 	<!-- Datatable -->
     <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+	 <!-- Boostrap Datepicker -->
+	 <link href="{{ asset('vendor/bootstrap-datepicker-master/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+	
 </head>
 <body>
 
@@ -62,6 +68,7 @@
         ***********************************-->
         @include('layouts.header')
         @include('layouts.sidebar')
+		@include('sweetalert::alert')
         @yield('container')
         <!--**********************************
             Content body end
@@ -80,13 +87,17 @@
 <script src="{{ asset('vendor/global/global.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9-beta.17/jquery.inputmask.min.js"></script>
 <!-- Datatable -->
 {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> --}}
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/lightgallery/js/lightgallery-all.min.js') }}"></script>
 {{-- <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script> --}}
 
 <!-- Dashboard 1 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="sweetalert2.all.min.js"></script> --}}
+{{-- <script src="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.js') }}"></script> --}}
 <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
 
 <script src="{{ asset('vendor/owl-carousel/owl.carousel.js') }}"></script>
@@ -97,8 +108,12 @@
 <!-- Leaflet Js -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-
-
+<script src="{{ asset('vendor/bootstrap-datepicker-master/js/bootstrap-datepicker.min.js') }}" ></script>
+ <!-- Chart ChartJS plugin files -->
+ <script src="{{ asset('vendor/chartjs/chart.bundle.min.js') }}"></script>
+ {{-- Highchart --}}
+ {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
+ 
 @stack('scripts')	
 <script>
 function JobickCarousel()
